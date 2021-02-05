@@ -1,3 +1,7 @@
+# Citations:
+# https://www.freva.com/2019/05/22/dht11-temperature-and-humidity-sensor-on-raspberry-pi/
+
+
 import Adafruit_DHT
 from time import sleep
 sensor = Adafruit_DHT.DHT11
