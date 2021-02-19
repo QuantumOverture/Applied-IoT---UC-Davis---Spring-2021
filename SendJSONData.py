@@ -16,8 +16,9 @@ while(True):
         T = (temperature * (9/5)) + 32
         RH = humidity
         heatindex = -42.379 + (2.04901523*T) + (10.14333127*RH) - (0.22475541*T*RH) - (0.00683783*T*T) - (0.05481717*RH*RH) + (0.00122874*T*T*RH) + (0.00085282*T*RH*RH) - (0.00000199*T*T*RH*RH)
-        JSONData  = '{{ temperature:{}, humidity:{},heatindex:{} }}'.format(temperature, humidity,heatindex)
-        requests.post("<Web Hook URL>",data=JSONData,headers={"Content-type":"application/json","Accept":"test/plain"})
+        JSONData  = '{{ temperature:{}, humidity:{}, heatindex:{} }}'.format(temperature, humidity,heatindex)
+        requests.post("https://webhook.site/e1b46bb5-83f4-47da-9068-26f9bec5e8f5",data=JSONData,headers={"Content-type":"application/json","Accept":"test/plain"})
+        print(JSONData)
     else:
       print('Failed to get reading from the sensor. Try again!')
       exit(1)
