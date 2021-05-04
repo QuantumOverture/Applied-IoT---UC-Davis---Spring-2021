@@ -32,7 +32,7 @@ def StoreOrDisplayData():
 
         # You would not do the following in production:
         # You would have all the elements of the z-score calculation "cached" and only change it when needed
-        return '{{ "Z-Score":{} }}'.format(zmap(JsonData["heatindex"],[RowObj.HeatIndex for RowObj in TempHumidityHeatIndex.query.all()])[0])
+        return '{{ "Z-Score":{} }}'.format(zmap(JsonData["heatindex"],[RowObj.HeatIndex for RowObj in TempHumidityHeatIndex.query.all()]))
     elif request.method == "GET":
         return render_template("index.html",WeatherData = TempHumidityHeatIndex.query.all())
 
