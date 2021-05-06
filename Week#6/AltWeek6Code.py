@@ -18,7 +18,12 @@ while True:
         RH = dhtDevice.humidity
         heatindex = heatindex = -42.379 + (2.04901523*T) + (10.14333127*RH) - (0.22475541*T*RH) - (0.00683783*T*T) - (0.05481717*RH*RH) + (0.00122874*T*T*RH) + (0.00085282*T*RH*RH) - (0.00000199*T*T*RH*RH)
         JSONData = '{{ "temperature":{},"humidity":{},"heatindex":{} }}'.format(T,RH,heatindex)
-        requests.post("<WEBHOOK URL HERE>",data=JSONData,headers={'Content-type':"application/json","Accept":"text/plain"})
+        SigResponse = requests.post("http://f97bd0d2b752.ngrok.io",data=JSONData,headers={"Content-type":"application/json","Accept":"test/plain"})
+        JSONResponse = json.loads(SigResponse.text)
+        if JSONResponse["Z-Score"] > 1.96 or JSONResponse["Z-Score"] < -1.96:
+            print("Significant")
+        else:
+            print("InSignificant")
         print(JSONData)
     except RuntimeError as error:
         # Errors happen fairly often, DHT's are hard to read, just keep going
