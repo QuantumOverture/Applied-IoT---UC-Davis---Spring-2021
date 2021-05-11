@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Database Results - IoT </title>
+	</head>
+	<body>
+		<ul>
+			{% for row in WeatherData %}
+				<li>Temperature: {{row.Temp}} | Humidity: {{row.Humidity}} | Heat Index: {{row.HeatIndex}}</li>
+			{% endfor %}
+		</ul>
+	</body>
+
+</html>
