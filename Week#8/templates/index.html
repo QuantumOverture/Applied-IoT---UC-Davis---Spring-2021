@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Error Database Results - IoT </title>
+	</head>
+	<body>
+		<ul>
+			{% for row in WeatherData %}
+				<li>Heat Index: {{row.HeatIndex}} | Heat Index: {{row.CorrectLabel}}</li>
+			{% endfor %}
+		</ul>
+	</body>
+
+</html>
