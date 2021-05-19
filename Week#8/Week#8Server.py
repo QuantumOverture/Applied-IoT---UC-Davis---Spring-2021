@@ -5,8 +5,6 @@ from flask import render_template
 import numpy as np
 from tensorflow.keras.models import save_model
 from tensorflow.keras.models import load_model
-from keras.models import Sequential
-from keras.layers import Dense
 
 app = Flask(__name__)
 
@@ -28,19 +26,21 @@ def StoreOrDisplayData(): # JsonData -> Error,heatindex,correctlabel
     if request.method == "POST":
         JsonData = json.loads(request.data)
         
-        if JsonData["Error"] == 1:
+        if JsonData["error"] == 1:
         
             database.session.add(HeatIndexErrors(JsonData["heatindex"],JsonData["correctlabel"]))
             database.session.commit()
-            if  len(HeatIndexErrors.query.all()) == 10:
+            if  len(HeatIndexErrors.query.all()) >= 10:
                 NNetNew = load_model("NNetFiles")
+                DatabaseResponse = HeatIndexErrors.query.all()
+                X = [[Value.HeatIndex] for Value in DatabaseResponse]
+                Y = [Value.CorrectLabel for Value in DatabaseResponse]
                 # Parse Input -> get labels and values then compile
-                <Here>
-                NNet.fit(X,Y,epochs=3,batch_size=2)
+                NNetNew.fit(X,Y,epochs=2,batch_size=2)
                 save_model(NNetNew,"NNetFiles")
                 # Clear Database
-                db.session.query(HeatIndexErrors).delete()
-                db.session.commit()
+                database.session.query(HeatIndexErrors).delete()
+                database.session.commit()
                 return "Retrained model"
             else:
                 return "Recieved Error.Current Errors: {}. Retraining starts at 10.".format(len(HeatIndexErrors.query.all()))
