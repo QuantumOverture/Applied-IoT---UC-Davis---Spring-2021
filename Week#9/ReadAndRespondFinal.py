@@ -26,10 +26,10 @@ def SendError(channel):
         Lock.acquire()
         JSONData = '{{ "heatindex":{},"error":1,"correctlabel":{} }}'.format(heatindex,int(not FanState))
         Lock.release()
-        SigResponse = requests.post("https://webhook.site/93c67628-10ad-4630-b772-2a7e41e639ae",data=JSONData,headers={"Content-type":"application/json","Accept":"test/plain"})
+        SigResponse = requests.post("http://iottestserver-env.eba-4vmugdcx.us-east-2.elasticbeanstalk.com/",data=JSONData,headers={"Content-type":"application/json","Accept":"test/plain"})
+        print(SigResponse.text)
 
-
-GPIO.add_event_detect(26,GPIO.FALLING ,callback=SendError,bouncetime=200)
+GPIO.add_event_detect(26,GPIO.FALLING ,callback=SendError,bouncetime=500)
 
 
 
@@ -43,7 +43,7 @@ while True:
         heatindex = heatindex = -42.379 + (2.04901523*T) + (10.14333127*RH) - (0.22475541*T*RH) - (0.00683783*T*T) - (0.05481717*RH*RH) + (0.00122874*T*T*RH) + (0.00085282*T*RH*RH) - (0.00000199*T*T*RH*RH)
         Lock.release()
         JSONData = '{{ "heatindex":{},"error":-1,"correctlabel":-1 }}'.format(heatindex)
-        SigResponse = requests.post("https://webhook.site/93c67628-10ad-4630-b772-2a7e41e639ae",data=JSONData,headers={'Content-type':"application/json","Accept":"text/plain"})
+        SigResponse = requests.post("http://iottestserver-env.eba-4vmugdcx.us-east-2.elasticbeanstalk.com/",data=JSONData,headers={'Content-type':"application/json","Accept":"text/plain"})
         print(JSONData)
         JSONResponse = json.loads(SigResponse.text)
         Lock.acquire()
