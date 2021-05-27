@@ -40,7 +40,7 @@ while True:
         T = temperature_c * (9 / 5) + 32
         RH = dhtDevice.humidity
         Lock.acquire()
-        heatindex = heatindex = -42.379 + (2.04901523*T) + (10.14333127*RH) - (0.22475541*T*RH) - (0.00683783*T*T) - (0.05481717*RH*RH) + (0.00122874*T*T*RH) + (0.00085282*T*RH*RH) - (0.00000199*T*T*RH*RH)
+        heatindex = -42.379 + (2.04901523*T) + (10.14333127*RH) - (0.22475541*T*RH) - (0.00683783*T*T) - (0.05481717*RH*RH) + (0.00122874*T*T*RH) + (0.00085282*T*RH*RH) - (0.00000199*T*T*RH*RH)
         Lock.release()
         JSONData = '{{ "heatindex":{},"error":-1,"correctlabel":-1 }}'.format(heatindex)
         SigResponse = requests.post("http://iottestserver-env.eba-4vmugdcx.us-east-2.elasticbeanstalk.com/",data=JSONData,headers={'Content-type':"application/json","Accept":"text/plain"})
